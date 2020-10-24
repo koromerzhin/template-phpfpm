@@ -29,6 +29,7 @@ docker-deploy: ## deploy
 	docker stack deploy -c docker-compose.yml $(STACK)
 
 docker-image-pull: ## Get docker image
+	docker image pull httpd
 	docker image pull koromerzhin/phpfpm:latest
 
 docker-logs: ## logs docker
