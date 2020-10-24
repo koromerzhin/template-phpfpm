@@ -11,7 +11,7 @@ services:
     depends_on:
       - phpfpm
     volumes:
-      - ${PWD}/apps:/usr/local/apache2/htdocs/
+      - ${PWD}/apps:/var/www/
       - ${PWD}/conf/httpd.conf:/usr/local/apache2/conf/httpd.conf
     networks:
       - net
@@ -27,7 +27,7 @@ services:
   phpfpm:
     image: koromerzhin/phpfpm:latest
     volumes:
-      - ${PWD}/apps:/usr/local/apache2/htdocs
+      - ${PWD}/apps:/var/www/
       - ${PWD}/conf/httpd.conf:/usr/local/apache2/conf/httpd.conf
     networks:
       - net
