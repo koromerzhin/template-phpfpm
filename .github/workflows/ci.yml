@@ -31,3 +31,7 @@ jobs:
         run: make install
       - name: linter readme.md
         run: make linter-readme
+      - name: Install Composer dependencies
+        run: |
+          cd apps
+          composer install --no-progress --no-suggest --prefer-dist --optimize-autoloader
