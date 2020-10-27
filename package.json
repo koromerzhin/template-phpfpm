@@ -3,6 +3,7 @@
     "version": "1.0.0",
     "description": "Templates pour la création d'un nouveau projet phpfpm",
     "scripts": {
+        "linter-readme": "markdownlint",
         "licenses": "license-checker",
         "contributors": "all-contributors",
         "changelog": "gitmoji-changelog",
@@ -26,5 +27,8 @@
         "license-checker": "25.0.1",
         "readme-md-generator": "1.0.0",
         "semantic-git-commit-cli": "3.5.0"
+    },
+    "dependencies": {
+        "markdownlint": "^0.21.1"
     }
 }
