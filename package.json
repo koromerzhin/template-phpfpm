@@ -3,7 +3,7 @@
     "version": "1.0.0",
     "description": "Templates pour la création d'un nouveau projet phpfpm",
     "scripts": {
-        "linter-readme": "markdownlint",
+        "linter-markdown": "markdownlint",
         "licenses": "license-checker",
         "contributors": "all-contributors",
         "changelog": "gitmoji-changelog",
