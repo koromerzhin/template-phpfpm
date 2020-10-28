@@ -1,6 +1,7 @@
 {
-    "name": "user/apps",
+    "name": "apps/phpfpm",
     "type": "project",
     "license": "MIT",
+    "description": "Template de projet en PHPFPM",
     "require": {}
 }
