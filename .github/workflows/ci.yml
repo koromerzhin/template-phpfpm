@@ -1,11 +1,7 @@
 name: Continuous Integration
 on: [push]
 jobs:
-<<<<<<< Updated upstream
-  environnement:
-=======
   tests:
->>>>>>> Stashed changes
     runs-on: ${{ matrix.operating-system }}
     strategy:
       fail-fast: false
