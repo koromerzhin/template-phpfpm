@@ -59,7 +59,5 @@ jobs:
         run: make docker-create-network
       - name: 'Build containers'
         run: make docker-deploy
-      - name: 'Check running stack'
-        run: make docker-stack-ps
       - name: 'Check running containers'
-        run: make docker-service-ls
+        run: make docker-ls
