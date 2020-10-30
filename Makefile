@@ -87,40 +87,40 @@ linter-readme: node_modules ## linter README.md
 	@npm run linter-markdown README.md
 
 linter-phpcbf: apps/vendor ## fixe le code PHP à partir d'un standard
-	docker exec $(PHPFPMFULLNAME) make linter-phpcbf
+	docker exec $(WWWFULLNAME) make linter-phpcbf
 
 linter-phpcpd: phpcpd.phar ## Vérifie s'il y a du code dupliqué
-	docker exec $(PHPFPMFULLNAME) make linter-phpcpd
+	docker exec $(WWWFULLNAME) make linter-phpcpd
 
 linter-phpcs: apps/vendor ## indique les erreurs de code non corrigé par PHPCBF
-	docker exec $(PHPFPMFULLNAME) make linter-phpcs
+	docker exec $(WWWFULLNAME) make linter-phpcs
 
 linter-phpcs-onlywarning: apps/vendor ## indique les erreurs de code non corrigé par PHPCBF
-	docker exec $(PHPFPMFULLNAME) make linter-phpcs-onlywarning
+	docker exec $(WWWFULLNAME) make linter-phpcs-onlywarning
 
 linter-phpcs-onlyerror: apps/vendor ## indique les erreurs de code non corrigé par PHPCBF
-	docker exec $(PHPFPMFULLNAME) make linter-phpcs-onlyerror
+	docker exec $(WWWFULLNAME) make linter-phpcs-onlyerror
 
 linter-phpcs-onlyerror-ci: apps/vendor ## indique les erreurs de code non corrigé par PHPCBF
 	cd apps && make linter-phpcs-onlyerror
 
 linter-phpinsights: apps/vendor ## PHP Insights
-	docker exec $(PHPFPMFULLNAME) make linter-phpinsights
+	docker exec $(WWWFULLNAME) make linter-phpinsights
 
 linter-phpmd: apps/vendor ## indique quand le code PHP contient des erreurs de syntaxes ou des erreurs
-	docker exec $(PHPFPMFULLNAME) make linter-phpmd
+	docker exec $(WWWFULLNAME) make linter-phpmd
 
 linter-phpmd-ci: apps/vendor ## indique quand le code PHP contient des erreurs de syntaxes ou des erreurs
 	cd apps && make linter-phpmd
 
 linter-phpmnd: apps/vendor ## Si des chiffres sont utilisé dans le code PHP, il est conseillé d'utiliser des constantes
-	docker exec $(PHPFPMFULLNAME) make linter-phpmnd
+	docker exec $(WWWFULLNAME) make linter-phpmnd
 
 linter-phpmnd-ci: apps/vendor ## Si des chiffres sont utilisé dans le code PHP, il est conseillé d'utiliser des constantes
 	cd apps && make linter-phpmnd
 
 linter-phpstan: apps/vendor ## regarde si le code PHP ne peux pas être optimisé
-	docker exec $(PHPFPMFULLNAME) make linter-phpstan
+	docker exec $(WWWFULLNAME) make linter-phpstan
 
 linter-phpstan-ci: apps/vendor ## regarde si le code PHP ne peux pas être optimisé
 	cd apps && make linter-phpstan
@@ -130,3 +130,22 @@ node_modules: ## npm install
 
 ssh: ## ssh
 	docker exec -ti $(WWWFULLNAME) /bin/bash
+
+tests-behat: apps/vendor ## Lance les tests behat
+	docker exec $(WWWFULLNAME) make tests-behat
+
+tests-behat-ci: apps/vendor ## Lance les tests behat
+	cd apps && make tests-behat
+
+tests-launch: apps/vendor ## Launch all tests
+	@make tests-behat -i
+	@make tests-phpunit-unit-integration -i
+
+tests-phpunit-unit-integration: apps/vendor ## lance les tests phpunit
+	docker exec $(WWWFULLNAME) make tests-phpunit-unit-integration
+
+tests-phpunit-unit-integration-ci: apps/vendor ## lance les tests phpunit
+	cd apps && make tests-phpunit-unit-integration
+
+tests-phpunit: apps/vendor ## lance les tests phpunit
+	docker exec $(WWWFULLNAME) make tests-phpunit

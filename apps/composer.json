@@ -17,14 +17,15 @@
         "phpinsights": "phpinsights",
         "phpmnd": "phpmnd src,features/bootstrap,tests",
         "behat": "behat --config behat.yaml",
-        "simple-phpunit": "simple-phpunit",
-        "simple-phpunit-unit-integration": "simple-phpunit --testsuite unit,integration"
+        "phpunit": "phpunit",
+        "phpunit-unit-integration": "phpunit --testsuite unit,integration"
     },
     "require-dev": {
         "behat/behat": "^3.7",
         "phpmd/phpmd": "^2.9",
         "phpstan/phpstan": "^0.12.52",
+        "squizlabs/php_codesniffer": "^3.5",
         "povils/phpmnd": "^2.3",
-        "squizlabs/php_codesniffer": "^3.5"
+        "phpunit/phpunit": "9.1.5"
     }
 }
