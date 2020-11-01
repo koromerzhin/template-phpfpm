@@ -62,9 +62,8 @@ docker-logs: ## logs docker
 docker-ls: ## docker service
 	@docker stack services $(STACK)
 
-docker-showstack: ## Show stack
-	@make docker-stack-ps -i
-	@make docker-service-ls -i
+docker-stop: ## docker stop
+	@docker stack rm $(STACK)
 
 git-commit: node_modules ## Commit data
 	npm run commit
