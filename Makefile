@@ -54,7 +54,7 @@ docker-deploy: ## deploy
 
 docker-image-pull: ## Get docker image
 	docker image pull httpd
-	docker image pull koromerzhin/phpfpm:latest
+	docker image pull koromerzhin/phpfpm:7.4.12-xdebug
 
 docker-logs: ## logs docker
 	docker service logs -f --tail 100 --raw $(WWWFULLNAME)
