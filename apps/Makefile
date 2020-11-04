@@ -6,8 +6,11 @@
 help:
 	@grep -E '(^[a-zA-Z_-]+:.*?##.*$$)|(^##)' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[32m%-30s\033[0m %s\n", $$1, $$2}' | sed -e 's/\[32m##/[33m/'
 
-vendor:
-	@make composer-dev -i
+composer.lock: composer.json
+	composer update
+
+vendor: composer.json
+	composer install --no-progress --no-suggest --prefer-dist --optimize-autoloader
 
 .env: ## Install .env
 	cp .env.dist .env
