@@ -10,17 +10,23 @@ WWWFULLNAME   := $(WWW).1.$$(docker service ps -f 'name=$(PRWWWOXY)' $(WWW) -q -
 help:
 	@grep -E '(^[a-zA-Z_-]+:.*?##.*$$)|(^##)' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[32m%-30s\033[0m %s\n", $$1, $$2}' | sed -e 's/\[32m##/[33m/'
 
+package-lock.json: package.json
+	npm install
+
+node_modules: package-lock.json
+	npm install
+
+apps/composer.lock: apps/composer.json
+	docker exec $(PHPFPMFULLNAME) make composer.lock
+	
+apps/vendor: apps/composer.lock
+	docker exec $(PHPFPMFULLNAME) make vendor
+
 composer-suggests: ## suggestions package pour PHP
 	docker exec $(WWWFULLNAME) make composer-suggests
 
 composer-outdated: ## Packet php outdated
 	docker exec $(WWWFULLNAME) make composer-outdated
-
-composer-prod: ## Installation version de production
-	docker exec $(WWWFULLNAME) make composer-prod
-
-composer-dev: ## Installation version de dev
-	docker exec $(WWWFULLNAME) make composer-dev
 
 composer-dev-ci: ## Installation version de dev
 	cd apps && make composer-dev
@@ -34,16 +40,16 @@ composer-validate: ## COMPOSER validate
 composer-validate-ci: ## COMPOSER validate
 	cd apps && make composer-validate
 
-contributors: node_modules ## Contributors
+contributors: ## Contributors
 	@npm run contributors
 
-contributors-add: node_modules ## add Contributors
+contributors-add: ## add Contributors
 	@npm run contributors add
 
-contributors-check: node_modules ## check Contributors
+contributors-check: ## check Contributors
 	@npm run contributors check
 
-contributors-generate: node_modules ## generate Contributors
+contributors-generate: ## generate Contributors
 	@npm run contributors generate
 
 docker-create-network: ## create network
@@ -65,14 +71,14 @@ docker-ls: ## docker service
 docker-stop: ## docker stop
 	@docker stack rm $(STACK)
 
-git-commit: node_modules ## Commit data
+git-commit: ## Commit data
 	npm run commit
 
-git-check: node_modules ## CHECK before
+git-check: ## CHECK before
 	@make contributors-check -i
 	@git status
 
-install: ## Installation
+install: node_modules ## Installation
 	@make docker-deploy -i
 
 linter: apps/vendor node_modules ## linter
@@ -82,7 +88,7 @@ linter: apps/vendor node_modules ## linter
 	@make linter-phpmd -i
 	@make linter-readme -i
 
-linter-readme: node_modules ## linter README.md
+linter-readme: ## linter README.md
 	@npm run linter-markdown README.md
 
 linter-phpcbf: apps/vendor ## fixe le code PHP à partir d'un standard
@@ -120,9 +126,6 @@ linter-phpstan: apps/vendor ## regarde si le code PHP ne peux pas être optimis�
 
 linter-phpstan-ci: apps/vendor ## regarde si le code PHP ne peux pas être optimisé
 	cd apps && make linter-phpstan
-
-node_modules: ## npm install
-	npm install
 
 ssh: ## ssh
 	docker exec -ti $(WWWFULLNAME) /bin/bash
