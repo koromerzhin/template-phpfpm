@@ -22,7 +22,7 @@ phpcpd.phar:
 	wget https://phar.phpunit.de/phpcpd.phar
 
 phpmd.phar:
-	wget https://phar.phpunit.de/phpmd.phar
+	wget https://github.com/phpmd/phpmd/releases/download/2.9.1/phpmd.phar
 
 composer-suggests: ## suggestions package pour PHP
 	composer suggests --by-suggestion
