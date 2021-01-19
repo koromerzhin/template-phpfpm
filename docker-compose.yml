@@ -20,8 +20,8 @@ services:
       labels:
         - "traefik.enable=true"
         - "traefik.http.routers.www-phpfpm.rule=Host(`phpfpm.lxc`, `www.phpfpm.lxc`)"
-        - "traefik.http.middlewares.wwwredirectregex.redirectregex.regex=^http://phpfpm.lxc/(.*)"
-        - "traefik.http.middlewares.wwwredirectregex.redirectregex.replacement=http://www.phpfpm.lxc/$${1}"
+        - "traefik.http.middlewares.phpfpmredirectregex.redirectregex.regex=^http://phpfpm.lxc/(.*)"
+        - "traefik.http.middlewares.phpfpmredirectregex.redirectregex.replacement=http://www.phpfpm.lxc/$${1}"
         - "traefik.http.routers.www-phpfpm.entrypoints=web"
         - "traefik.http.services.www-phpfpm.loadbalancer.server.port=80"
   phpfpm:
