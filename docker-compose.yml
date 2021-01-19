@@ -31,3 +31,6 @@ services:
       - ${PWD}/conf/httpd.conf:/usr/local/apache2/conf/httpd.conf
     networks:
       - net
+    deploy:
+      labels:
+        - "traefik.enable=false"
