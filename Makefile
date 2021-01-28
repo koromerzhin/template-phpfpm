@@ -10,7 +10,7 @@ PHPFPMFULLNAME := $(PHPFPM).1.$$(docker service ps -f 'name=$(PHPFPM)' $(PHPFPM)
 
 DOCKER_EXECPHP := @docker exec $(PHPFPMFULLNAME)
 
-SUPPORTED_COMMANDS := composer contributors docker logs git linter ssh tests
+SUPPORTED_COMMANDS := composer contributors docker logs git linter ssh tests update inspect
 SUPPORTS_MAKE_ARGS := $(findstring $(firstword $(MAKECMDGOALS)), $(SUPPORTED_COMMANDS))
 ifneq "$(SUPPORTS_MAKE_ARGS)" ""
   COMMAND_ARGS := $(wordlist 2,$(words $(MAKECMDGOALS)),$(MAKECMDGOALS))
@@ -203,6 +203,34 @@ else
 	@echo "ARGUMENT missing"
 	@echo "---"
 	@echo "make ssh ARGUMENT"
+	@echo "---"
+	@echo "apache: APACHE"
+	@echo "phpfpm: PHPFPM"
+endif
+
+update: ## update
+ifeq ($(COMMAND_ARGS),apache)
+	@docker service update $(APACHE)
+else ifeq ($(COMMAND_ARGS),phpfpm)
+	@docker service update $(PHPFPM)
+else
+	@echo "ARGUMENT missing"
+	@echo "---"
+	@echo "make update ARGUMENT"
+	@echo "---"
+	@echo "apache: APACHE"
+	@echo "phpfpm: PHPFPM"
+endif
+
+inspect: ## inspect
+ifeq ($(COMMAND_ARGS),apache)
+	@docker service inspect $(APACHE)
+else ifeq ($(COMMAND_ARGS),phpfpm)
+	@docker service inspect $(PHPFPM)
+else
+	@echo "ARGUMENT missing"
+	@echo "---"
+	@echo "make inspect ARGUMENT"
 	@echo "---"
 	@echo "apache: APACHE"
 	@echo "phpfpm: PHPFPM"
