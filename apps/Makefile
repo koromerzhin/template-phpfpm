@@ -66,7 +66,7 @@ env-dev: .env ## Installation environnement dev
 env-prod: .env ## Installation environnement prod
 	sed -i 's/APP_ENV=dev/APP_ENV=prod/g' .env
 	rm -rf vendor
-	@make composer-prod -i
+	@make composer prod -i
 
 
 linter: phpcpd.phar phploc.phar phpmd.phar ## Scripts Linter
