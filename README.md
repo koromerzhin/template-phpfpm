@@ -33,8 +33,7 @@ docker swarm
 
 Hosts:
 
-- 127.0.0.1 php.lxc
-- 127.0.0.1 www.php.lxc
+- phpmfpm.traefik.me
 
 ## Récupérer les images docker
 
