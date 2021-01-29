@@ -19,8 +19,6 @@ composer.lock: composer.json
 vendor: composer.json
 	composer install --no-progress --no-suggest --prefer-dist --optimize-autoloader
 
-.env: ## Install .env
-	cp .env.dist .env
 
 phploc.phar:
 	wget https://phar.phpunit.de/phploc.phar
@@ -60,13 +58,21 @@ else
 	@echo "validate: COMPOSER validate"
 endif
 
-env-dev: .env ## Installation environnement dev
-	sed -i 's/APP_ENV=prod/APP_ENV=dev/g' .env
-
-env-prod: .env ## Installation environnement prod
-	sed -i 's/APP_ENV=dev/APP_ENV=prod/g' .env
-	rm -rf vendor
+env: apps/.env ## Scripts Installation environnement
+ifeq ($(COMMAND_ARGS),dev)
+	@sed -i 's/APP_ENV=prod/APP_ENV=dev/g' apps/.env
+else ifeq ($(COMMAND_ARGS),prod)
+	@sed -i 's/APP_ENV=dev/APP_ENV=prod/g' apps/.env
+	@rm -rf apps/vendor
 	@make composer prod -i
+else
+	@echo "ARGUMENT missing"
+	@echo "---"
+	@echo "make env ARGUMENT"
+	@echo "---"
+	@echo "dev: environnement dev"
+	@echo "prod: environnement prod"
+endif
 
 
 linter: phpcpd.phar phploc.phar phpmd.phar ## Scripts Linter
