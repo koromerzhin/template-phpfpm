@@ -29,9 +29,12 @@
       "profile": "https://github.com/apps/renovate",
       "contributions": [
         "bug",
+        "code",
+        "infra",
         "maintenance",
         "platform",
         "review",
+        "security",
         "tool"
       ]
     },
@@ -42,9 +45,12 @@
       "profile": "https://github.com/apps/dependabot",
       "contributions": [
         "bug",
+        "code",
+        "infra",
         "maintenance",
         "platform",
         "review",
+        "security",
         "tool"
       ]
     }
