@@ -1,8 +1,5 @@
 .DEFAULT_GOAL   := help
 
-%:
-	@:
-
 SUPPORTED_COMMANDS   := composer linter tests
 SUPPORTS_MAKE_ARGS   := $(findstring $(firstword $(MAKECMDGOALS)), $(SUPPORTED_COMMANDS))
 ifneq "$(SUPPORTS_MAKE_ARGS)" ""
