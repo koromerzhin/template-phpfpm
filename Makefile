@@ -37,7 +37,7 @@ endif
 
 apps/composer.lock: apps/composer.json
 	@docker exec $(PHPFPMFULLNAME) make composer.lock
-	
+
 apps/vendor: apps/composer.lock
 	@docker exec $(PHPFPMFULLNAME) make vendor
 
