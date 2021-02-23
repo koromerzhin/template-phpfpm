@@ -86,12 +86,6 @@ ifeq ($(COMMAND_ARGS),create-network)
 	@docker network create --driver=overlay $(NETWORK)
 else ifeq ($(COMMAND_ARGS),deploy)
 	@docker stack deploy -c docker-compose.yml $(STACK)
-else ifeq ($(COMMAND_ARGS),image-pull)
-	@docker image pull httpd
-	@docker image pull koromerzhin/phpfpm:7.4.12-xdebug
-	@docker image pull phpmyadmin/phpmyadmin
-	@docker image pull mailhog/mailhog
-	@docker image pull mariadb:10.5.9
 else ifeq ($(COMMAND_ARGS),ls)
 	@docker stack services $(STACK)
 else ifeq ($(COMMAND_ARGS),stop)
@@ -103,7 +97,6 @@ else
 	@echo "---"
 	@echo "create-network: create network"
 	@echo "deploy: deploy"
-	@echo "image-pull: Get docker image"
 	@echo "ls: docker service"
 	@echo "stop: docker stop"
 endif
@@ -148,7 +141,6 @@ else
 endif
 
 install: node_modules ## Installation
-	@make docker image-pull -i
 	@make docker deploy -i
 
 linter: node_modules isdocker## Scripts Linter

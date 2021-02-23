@@ -29,12 +29,8 @@ docker swarm
 Hosts:
 
 - phpmfpm.traefik.me
-
-## Récupérer les images docker
-
-``` sh
-make docker image-pull
-```
+- mailhog-phpmfpm.traefik.me
+- phpmyadmin-phpmfpm.traefik.me
 
 ## Install
 
