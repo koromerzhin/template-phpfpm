@@ -119,9 +119,7 @@ else
 endif
 
 git: node_modules ## Scripts GIT
-ifeq ($(COMMAND_ARGS),commit)
-	@npm run commit
-else ifeq ($(COMMAND_ARGS),status)
+ifeq ($(COMMAND_ARGS),status)
 	@git status
 else ifeq ($(COMMAND_ARGS),check)
 	@make composer validate -i
@@ -135,7 +133,6 @@ else
 	@echo "---"
 	@echo "make git ARGUMENT"
 	@echo "---"
-	@echo "commit: Commit data"
 	@echo "check: CHECK before"
 	@echo "status: status"
 endif
