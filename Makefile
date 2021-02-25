@@ -32,11 +32,10 @@ ifeq ($(isDocker), 0)
 	exit 1
 endif
 
-apps/composer.lock: apps/composer.json
-	@docker exec $(PHPFPMFULLNAME) make composer.lock
+dump:
+	@mkdir dump
 
-apps/vendor: apps/composer.lock
-	@docker exec $(PHPFPMFULLNAME) make vendor
+folders: dump ## Create folder
 
 composer: isdocker ## Scripts for composer
 ifeq ($(COMMAND_ARGS),suggests)
@@ -141,7 +140,7 @@ else
 	@echo "status: status"
 endif
 
-install: node_modules ## Installation
+install: folders node_modules ## Installation
 	@make docker deploy -i
 
 linter: node_modules isdocker## Scripts Linter
