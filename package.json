@@ -1,0 +1,33 @@
+{
+  "name": "@koromerzhin/template-phpfpm",
+  "version": "1.0.0",
+  "description": "Templates pour la création d'un nouveau projet phpfpm",
+  "scripts": {
+    "linter-markdown": "markdownlint",
+    "licenses": "license-checker",
+    "contributors": "all-contributors",
+    "readme": "readme",
+    "changelog": "changelog",
+    "jscpd": "jscpd apps/src"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/koromerzhin/template-phpfpm.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/koromerzhin/template-phpfpm/issues"
+  },
+  "homepage": "https://github.com/koromerzhin/template-phpfpm#readme",
+  "devDependencies": {
+    "all-contributors-cli": "6.20.0",
+    "generate-changelog": "1.8.0",
+    "jscpd": "3.3.25",
+    "license-checker": "25.0.1",
+    "markdownlint-cli": "0.27.1",
+    "readme-md-generator": "1.0.0"
+  },
+  "dependencies": {}
+}

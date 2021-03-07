@@ -1,0 +1,97 @@
+version: "3.4"
+networks:
+  proxynetwork:
+    external: true
+  net:
+    driver: overlay
+    attachable: true
+
+volumes:
+  mariadb_data:
+services:
+  phpfpmexec:
+    image: koromerzhin/phpfpm:7.4.12
+    command: sh -c "composer install"
+    volumes:
+      - ${PWD}/apps:/var/www/
+      - ${PWD}/conf/httpd.conf:/usr/local/apache2/conf/httpd.conf
+    deploy:
+      restart_policy:
+        condition: none
+      labels:
+        - "traefik.enable=false"
+  mailhog:
+    image: mailhog/mailhog:v1.0.1
+    networks:
+      - net
+      - proxynetwork
+    deploy:
+      labels:
+        - "traefik.enable=true"
+        - "traefik.http.routers.mailhog-phpfpm.rule=Host(`mailhog-phpfpm.traefik.me`)"
+        - "traefik.http.routers.mailhog-phpfpm-tls.tls.domains[0].main=mailhog-phpfpm.traefik.me"
+        - "traefik.http.routers.mailhog-phpfpm-tls.tls.domains[0].sans=mailhog-phpfpm-*.traefik.me"
+        - "traefik.http.services.mailhog-phpfpm.loadbalancer.server.port=8025"
+  mariadb:
+    image: mariadb:10.5.9
+    environment:
+      MYSQL_ROOT_PASSWORD: example
+      MYSQL_DATABASE: core
+      MYSQL_USER: siteinternet
+      MYSQL_PASSWORD: password
+      TZ: Europe/Paris
+    volumes:
+      - mariadb_data:/var/lib/mysql
+      - ${PWD}/dump:/dump
+    networks:
+      - net
+    deploy:
+      labels:
+        - "traefik.enable=false"
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin:5.1.0
+    environment:
+      PMA_HOST: mariadb
+      MYSQL_ROOT_PASSWORD: example
+    depends_on:
+      - mariadb
+    networks:
+      - net
+      - proxynetwork
+    deploy:
+      labels:
+        - "traefik.enable=true"
+        - "traefik.http.routers.phpmyadmin-phpfpm.rule=Host(`phpmyadmin-phpfpm.traefik.me`)"
+        - "traefik.http.routers.phpmyadmin-phpfpm-tls.tls.domains[0].main=phpmyadmin-phpfpm.traefik.me"
+        - "traefik.http.routers.phpmyadmin-phpfpm-tls.tls.domains[0].sans=phpmyadmin-phpfpm-*.traefik.me"
+        - "traefik.http.services.phpmyadmin-phpfpm.loadbalancer.server.port=80"
+  apache:
+    image: httpd:2.4.46
+    depends_on:
+      - phpfpm
+    volumes:
+      - ${PWD}/apps:/var/www/
+      - ${PWD}/conf/httpd.conf:/usr/local/apache2/conf/httpd.conf
+    networks:
+      - net
+      - proxynetwork
+    deploy:
+      labels:
+        - "traefik.enable=true"
+        - "traefik.http.routers.phpfpm.rule=Host(`phpfpm.traefik.me`)"
+        - "traefik.http.routers.phpfpm-tls.tls.domains[0].main=phpfpm.traefik.me"
+        - "traefik.http.routers.phpfpm-tls.tls.domains[0].sans=phpfpm-*.traefik.me"
+        - "traefik.http.services.phpfpm.loadbalancer.server.port=80"
+  phpfpm:
+    image: koromerzhin/phpfpm:7.4.12-xdebug
+    volumes:
+      - ${PWD}/apps:/var/www/
+      - ${PWD}/conf/httpd.conf:/usr/local/apache2/conf/httpd.conf
+    networks:
+      - net
+    depends_on:
+      - mariadb
+      - mailhog
+    deploy:
+      labels:
+        - "traefik.enable=false"
