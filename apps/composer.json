@@ -23,6 +23,6 @@
     "phpstan/phpstan": "0.12.81",
     "squizlabs/php_codesniffer": "3.5.8",
     "povils/phpmnd": "2.4.0",
-    "phpunit/phpunit": "9.5.2"
+    "phpunit/phpunit": "9.5.3"
   }
 }
